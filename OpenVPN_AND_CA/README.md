@@ -783,7 +783,7 @@ https://www.digitalocean.com/community/tutorials/como-configurar-un-servidor-de-
 # Paso 12: Revocar certificados de clientes
 
 # Extra
-Para configurar más clientes, solo debe seguir los `pasos` `4` y `9` a `11` para cada dispositivo adicional. Para rechazar el acceso de los clientes, siga el `paso 12`.
+Para configurar más clientes, solo debe seguir parcialmente los `pasos` `4` y `9` a `11` para cada dispositivo adicional. Para rechazar el acceso de los clientes, siga el `paso 12`.
 
 # Referencias
 

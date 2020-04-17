@@ -213,12 +213,13 @@ Luego, transfiera el archivo client1.req a su carpeta de CA
 cp pki/private/client1.key ~/client-configs/keys/
 ```
 
+<!-- comment
 Luego, transfiera el archivo client1.req a su carpeta de CA
 
 ```
 cp ~/VPN_EasyRSA-3.0.4/pki/reqs/client1.req ~/VPNuser@$IP_CA:/tmp
 ```
-
+-->
 ## Desde la carpeta CA
 
 Luego firme la solicitud como lo hizo en el caso del servidor en el paso anterior. Esta vez, asegúrese de especificar el tipo de solicitud `client`:
@@ -772,7 +773,118 @@ https://www.digitalocean.com/community/tutorials/como-configurar-un-servidor-de-
 # Paso 12: Revocar certificados de clientes
 
 # Extra
-Para configurar más clientes, solo debe seguir los `pasos` `4` y `9` a `11` para cada dispositivo adicional. Para rechazar el acceso de los clientes, siga el `paso 12`.
+Para configurar más clientes, solo debe seguir parcialmente los `pasos` `4` y `9` a `11` para cada dispositivo adicional. Para rechazar el acceso de los clientes, siga el `paso 12`.
+
+# Pasos 4, 9-11
+
+## Desde la carpeta VPN
+
+#### Paso 4
+
+Luego, diríjase al directorio EasyRSA y ejecute la secuencia de comandos `​​​​​​easyrsa` con las opciones `gen-req` y `nopass`, junto con el `nombre común`(En este caso client2) para el cliente:
+
+```
+cd ~/VPN_EasyRSA-3.0.4/
+./easyrsa gen-req client2 nopass
+```
+
+copie el archivo client.key al directorio /client-configs/keys/ que creó antes.
+
+```
+cp pki/private/client2.key ~/client-configs/keys/
+```
+
+## Desde la carpeta CA
+
+Luego firme la solicitud como lo hizo en el caso del servidor en el paso anterior. Esta vez, asegúrese de especificar el tipo de solicitud `client`:
+
+Con esto, se creará un archivo de certificado de cliente llamado client2.crt. Transfiera este archivo de vuelta a la carpeta VPN servidor:
+
+```
+cd ~/CA_EasyRSA-3.0.4
+./easyrsa import-req ~/VPN_EasyRSA-3.0.4/pki/reqs/client2.req client2
+./easyrsa sign-req client client2
+cp ~/CA_EasyRSA-3.0.4/pki/issued/client2.crt ~/client-configs/keys/
+```
+
+#### END Paso 4
+
+#### Paso 9
+
+Si siguió la guía, creó un certificado y una clave de cliente llamados `client1.crt` y `client1.key`, respectivamente, en el paso 4. Puede generar un archivo de configuración para estas credenciales si se dirige al directorio `~/client-configs` y ejecuta la secuencia de comandos que realizó al final del paso anterior:
+
+
+```
+cd ~/client-configs
+sudo ./make_config.sh client2
+```
+
+Con esto, se creará un archivo llamado client1.ovpn en su directorio ~/client-configs/files
+
+## Desde la Máquina cliente
+Nos conectaremos con las credenciales de la *máquina OPENVPN* y descargaremos el archivo `client2.ovpn`.
+```
+sftp user@192.168.100.197:client-configs/files/client2.ovpn ~/
+
+```
+
+#### END Paso 9
+
+#### Paso 10
+
+Debian
+```
+sudo apt update
+sudo apt install openvpn
+```
+
+Verifique si su distribución incluye una secuencia de comandos `/etc/openvpn/update-resolv-conf`:
+
+```
+ls /etc/openvpn
+```
+
+Si pudo encontrar un archivo `update-resolv-conf`, elimine los comentarios de las tres líneas que agregó para modificar los ajustes de DNS:
+
+```
+vim client1.ovpn
+```
+
+Descomente las líneas para que quede de la siguiente manera.
+```
+script-security 2
+up /etc/openvpn/update-resolv-conf
+down /etc/openvpn/update-resolv-conf
+```
+
+Si usa CentOS, cambie la directiva `group` de `nogroup` a `nobody` para que coincidan los grupos de distribución disponibles:
+
+```
+group nobody
+```
+
+Guarde y cierre el archivo.
+
+Ahora, podrá conectarse a la VPN simplemente apuntando el comando openvpn hacia el archivo de configuración de cliente:
+
+```
+sudo openvpn --config client2.ovpn
+```
+
+
+## Otras plataformas
+
+
+Ver el el paso 10 de:
+
+https://www.digitalocean.com/community/tutorials/como-configurar-un-servidor-de-openvpn-en-ubuntu-18-04-es
+
+
+#### END Paso 10
+
+#### Paso 11
+
+#### END Paso 11
 
 # Referencias
 
