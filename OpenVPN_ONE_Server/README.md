@@ -1,11 +1,6 @@
-# Tutorial OpenVPN
+# Configuración OpenVPN en un solo servidor
+
 Creando un servidor OpenVPN sobre Debian 10.
-
-Este es un tutorial basado en en el artículo de [Digital Ocean](https://www.digitalocean.com/community/tutorials/como-configurar-un-servidor-de-openvpn-en-ubuntu-18-04-es). Sin embargo, este tutorial contiene algunas notas adicionales.	
-
-# Creando nuestro porpio servidor vpn
-
-OpenVPN es una solución de capa de conexión segura (SSL) de funciones completas y de código abierto que cuenta con una amplia variedad de configuraciones. A través de este tutorial, configurará un servidor de OpenVPN en un servidor Debian 10. 
 
 # Prerrequisitos
 Vamos a necesitar una máquina

@@ -1,6 +1,6 @@
-# Tutorial OpenVPN
-Creando un servidor OpenVPN sobre Debian 10.
+# Configuración OpenVPN en servidores separados (CA y VPN)
 
+Creando un servidor OpenVPN sobre Debian 10.
 
 # Creando nuestro porpio servidor vpn
 
